@@ -292,7 +292,7 @@ public class Methods {
                             case 1:
                                 boolean control = false;
                                 System.out.println("Ingrese el nombre del Zombie");
-                                String name1 = scan.nextLine();
+                                String name1 = scan.next();
                                 while (true) {
                                     for (int i = 0; i < zombies.size(); i++) {
                                         if (zombies.get(i).getNameZ().equals(name1)) {
