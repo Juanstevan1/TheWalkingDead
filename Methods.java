@@ -142,6 +142,7 @@ public class Methods {
     } /*Metodo 3*/
 
     public void typeBlood() {
+        boolean tri = false;
         System.out.println("Zombies con tipo de sangre O+ o AB+");
         /*Tipo de sangre 0+ y AB+*/
         for (int i = 0; i < zombies.size(); i++) {
@@ -151,30 +152,34 @@ public class Methods {
                 System.out.print("|" + zombies.get(i).getBloodZ());
                 System.out.print("|" + zombies.get(i).getDateZ());
                 System.out.print("|" + zombies.get(i).getHealthZ() + "|\n");
-            }else if(i==zombies.size()-1){
-                System.out.println("Aún no hay zombies registrados con tipo de sangre O+ o AB+");
+                tri = true;
             }
+        }
+        if(tri == false){
+            System.out.println("Aún no hay zombies registrados con tipo de sangre O+ o AB+");
         }
 
     } /*Metodo 4*/
 
     public void born2000() {
         System.out.println("Zombies que han nacido despues del 2000");
+        boolean tri = false;
         for (int i = 0; i < zombies.size(); i++) {
             String cut = zombies.get(i).getDateZ().substring(6, 10);
             int year = Integer.parseInt(cut);
             if (year > 2000) {
+                tri = true;
                 System.out.println("");
                 System.out.print("|" + zombies.get(i).getNameZ());
                 System.out.print("|" + zombies.get(i).getBloodZ());
                 System.out.print("|" + zombies.get(i).getDateZ());
                 System.out.print("|" + zombies.get(i).getHealthZ() + "|");
-            }else if(i==zombies.size()-1){
-                System.out.println("Aún no se han registrado zombies que hayan nacido después del 2000");
             }
-
         }
         System.out.println("");
+        if(tri == false){
+            System.out.println("Aun no se han registrado zombies que nacieron despues del 2000");
+        }
     } /*Metodo 5*/
 
     public void halfLife() {
