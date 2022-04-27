@@ -24,9 +24,9 @@ public class Methods {
                 + "9 - Conocer la información de la ubicación más segura creada en el sistema\r\n"
                 + "10 - Ver información de las ciudades ordenadas de menor a mayor distancia en el sistema\r\n"
                 + "11 - Frase de zombies\r\n"
-                + "12 - Ver promedio de la vida de los zombies por ciudad ");
+                + "12 - Modificar datos de los Zombies ");
         while(true) {
-            System.out.println("Ingrese el número de la opción elegida");
+            System.out.println("Ingrese un numero para ejecutar alguna funcion del programa TheWalkingDead");
             int num=scan.nextInt();
             scan.nextLine();
             if(num==0){
@@ -159,8 +159,7 @@ public class Methods {
     } /*Metodo 4*/
 
     public void born2000() {
-
-
+        System.out.println("Zombies que han nacido despues del 2000");
         for (int i = 0; i < zombies.size(); i++) {
             String cut = zombies.get(i).getDateZ().substring(6, 10);
             int year = Integer.parseInt(cut);
@@ -179,7 +178,7 @@ public class Methods {
     } /*Metodo 5*/
 
     public void halfLife() {
-        System.out.println("Se lanzo bomba, 1/2 a todos los zombies");
+        System.out.println("Se lanzo bomba, 1/2 de vida a todos los zombies");
         for (int i = 0; i < zombies.size(); i++) {
             zombies.get(i).setHealthZ((zombies.get(i).getHealthZ() / 2));
         }
@@ -233,6 +232,8 @@ public class Methods {
             System.out.println("Aún no hay ubicaciones registradas en el sistema");
         }else{
             Collections.sort(ubications);
+            System.out.println("ubicaciones de la ciudad ordenadas por distancia a Alexandria.");
+            System.out.println("");
             for(int i=0;i<ubications.size();i++) {
                 System.out.printf("%f | %4d | %s\n",ubications.get(i).getDistanceU(),ubications.get(i).getTotalZatU(),ubications.get(i).getNameU());
             }
@@ -245,123 +246,99 @@ public class Methods {
         Random random = new Random();
 
         int value = random.nextInt(max + min) + min;
-        System.out.println(frases [value]);
+        System.out.println("Un zombie dijo: "+frases [value]);
     } /* Metodo 11*/
     public void modifyZombiesData() {
         if(zombies.size()==0) {
             System.out.println("No se han registrado zombies en el sistema");
         }else {
+            int indice = 0;
             System.out.println("Ingrese el nombre del zombie al que desea modificar los datos");
-
             String nombre=scan.nextLine();
+
             while(true) {
-                int indice=0;
-                for(int i = 0; i < zombies.size(); i++) {
-                    if(zombies.get(i).getNameZ().contentEquals(nombre) ) {
-                        indice=i;
+                boolean contro = true;
+                for (int i = 0; i < zombies.size(); i++) {
+                    if (zombies.get(i).getNameZ().equals(nombre)) {
+                        indice = i;
+                        contro = false;
                         break;
-                    }else if(i==zombies.size()-1){
+                    } else {
                         System.out.println("El nombre del zombie no se encuentra en el sistema, por favor ingrese el nombre de nuevo");
-                        nombre=scan.nextLine();
-                        this.comprobarName1(nombre);
+                        nombre = scan.nextLine();
                     }
                 }
-
-                System.out.println("Qué dato desea modificar: \n"
-                        + "0 - Terminar ejecución\n"
-                        + "1 - Nombre del zombie\n"
-                        + "2 - Salud del zombie\n"
-                        + "3 - Fecha de nacimiento del zombie\n"
-                        + "4 - Tipo de sangre del zombie\n");
-                int valor=scan.nextInt();
-                scan.nextLine();
-                if(valor==0) {
+                if (!contro) {
                     break;
-                }else {
-                    switch(valor) {
-                        case 1:
-                            boolean control=false;
-                            System.out.println("Ingrese el nombre del Zombie");
-                            String name1 = scan.nextLine();
-                            while(true) {
-                                for(int i = 0; i < zombies.size(); i++) {
-                                    if(zombies.get(i).getNameZ().equalsIgnoreCase(name1) ) {
-                                        control = true;
-                                        System.out.println("El nombre ya existe en el sistema, agregue un número al final del nombre");
-                                        name1 = scan.nextLine();
-                                        this.comprobarName(name1);
+                }
+            }
+                while (true) {
 
-                                    }else {
-                                        control=false;
+                    System.out.println("Qué dato desea modificar: \n"
+                            + "0 - Terminar ejecución\n"
+                            + "1 - Nombre del zombie\n"
+                            + "2 - Salud del zombie\n"
+                            + "3 - Fecha de nacimiento del zombie\n"
+                            + "4 - Tipo de sangre del zombie\n");
+                    int valor = scan.nextInt();
+                    scan.nextLine();
+                     if(valor != 0) {
+                        switch (valor) {
+                            case 1:
+                                boolean control = false;
+                                System.out.println("Ingrese el nombre del Zombie");
+                                String name1 = scan.nextLine();
+                                while (true) {
+                                    for (int i = 0; i < zombies.size(); i++) {
+                                        if (zombies.get(i).getNameZ().equals(name1)) {
+                                            control = true;
+                                            System.out.println("El nombre ya existe en el sistema, agregue un número al final del nombre");
+                                            name1 = scan.nextLine();
+
+                                        } else {
+                                            control = false;
+                                        }
+                                    }
+                                    if (control == false) {
+                                        break;
                                     }
                                 }
-                                if(control==false) {
-                                    break;
-                                }
-                            }
-                            zombies.get(indice).setNameZ(name1);
-                            break;
-                        case 2:
-                            System.out.println("Ingrese el valor de la salud del zombie");
-                            int health=scan.nextInt();
-                            zombies.get(indice).setHealthZ(health);
-                        case 3:
-                            String date;
-                            while (true) {
-                                System.out.println("Ingrese la fecha de nacimiento del zombie con el siguiente formato dd/mm/aa");
-                                date = scan.nextLine();
-                                if (date.length() == 10) {
-                                    break;
+                                zombies.get(indice).setNameZ(name1);
+                                break;
+                            case 2:
+                                System.out.println("Ingrese el valor de la salud del zombie");
+                                int health = scan.nextInt();
+                                zombies.get(indice).setHealthZ(health);
+                                break;
+                            case 3:
+                                String date;
+                                while (true) {
+                                    System.out.println("Ingrese la fecha de nacimiento del zombie con el siguiente formato dd/mm/aa");
+                                    date = scan.nextLine();
+                                    if (date.length() == 10) {
+                                        break;
 
-                                } else {
-                                    System.out.println("La fecha debe tener dos dígitos para el día y para el mes, cuatro dígitos para el año e incluir las barras inclinadas para separar los números");
+                                    } else {
+                                        System.out.println("La fecha debe tener dos dígitos para el día y para el mes, cuatro dígitos para el año e incluir las barras inclinadas para separar los números");
+                                    }
                                 }
-                            }
-                            zombies.get(indice).setDateZ(date);
-                            break;
-                        case 4:
-                            System.out.println("Ingrese el tipo de sangre del zombie");
-                            String blood=scan.nextLine();
-                            zombies.get(indice).setBloodZ(blood);
-                            break;
-                        default:
-                            System.out.println("El dato no es válido, vuelva a ingresar un número");
-                            break;
+                                zombies.get(indice).setDateZ(date);
+                                break;
+                            case 4:
+                                System.out.println("Ingrese el tipo de sangre del zombie");
+                                String blood = scan.nextLine();
+                                zombies.get(indice).setBloodZ(blood);
+                                break;
+                            default:
+                                System.out.println("El dato no es válido, vuelva a ingresar un número");
+                                break;
+                        }
                     }
-                }
-            }
-        }
-    }
-    public void comprobarName(String name1) {
-        boolean control=false;
-        while(true) {
-            for(int i = 0; i < zombies.size(); i++) {
-                if(zombies.get(i).getNameZ().equalsIgnoreCase(name1) ) {
-                    control = true;
-                    System.out.println("El nombre ya existe en el sistema, agregue un número al final del nombre");
-                    name1 = scan.nextLine();
-                    this.comprobarName(name1);
+                    if (valor == 0) {
+                        break;
+                    }
 
                 }
             }
-        }
+        } /*Metodo 12*/
     }
-    public void comprobarName1(String nombre) {
-        int indice=0;
-        boolean control=false;
-        for(int i = 0; i < zombies.size(); i++) {
-            if(zombies.get(i).getNameZ().contentEquals(nombre) ) {
-                indice=i;
-                break;
-            }else if(i==zombies.size()-1){
-                System.out.println("El nombre del zombie no se encuentra en el sistema, por favor ingrese el nombre de nuevo");
-                nombre=scan.nextLine();
-                this.comprobarName1(nombre);
-            }else {
-                control=false;
-            }
-        }
-    }
-
-
-}
